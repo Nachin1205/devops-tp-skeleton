@@ -11,7 +11,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/Raremiam/devops-tp-skeleton/tree/patch-1'
+                git branch: 'main', url: 'https://github.com/Raremiam/devops-tp-skeleton'
             }
         }
 
