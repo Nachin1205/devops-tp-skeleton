@@ -2,6 +2,11 @@ import express from 'express'
 import * as Sentry from '@sentry/node'
 
 const app = express()
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+app.use(express.static(path.join(__dirname, '..', 'public')))
 app.use(express.json())
 
 // Monitoring (Sentry) - se activa solo si definís SENTRY_DSN

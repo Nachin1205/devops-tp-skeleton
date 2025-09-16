@@ -1,0 +1,37 @@
+﻿<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TP DevOps - TODOs</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>TP DevOps — App Web Básica</h1>
+      <p>CRUD en memoria consumiendo la API Express.</p>
+      <div id="health" class="badge">Verificando /health…</div>
+    </header>
+
+    <main>
+      <section class="card">
+        <h2>Nuevo TODO</h2>
+        <form id="form-nuevo">
+          <input id="title" type="text" placeholder="Título del TODO" required />
+          <button type="submit">Agregar</button>
+        </form>
+      </section>
+
+      <section class="card">
+        <h2>Listado</h2>
+        <ul id="lista"></ul>
+      </section>
+    </main>
+
+    <footer>
+      <small>Hecho para el TP Integrador (Docker + CI/CD). UI simple sin build.</small>
+    </footer>
+
+    <script src="/app.js"></script>
+  </body>
+</html>
