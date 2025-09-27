@@ -14,7 +14,9 @@ async function apiJson(path, init = {}) {
     try {
       const err = await res.json();
       msg = err.error || msg;
-    } catch {}
+    } catch {
+      // eslint-disable-next-line no-empty
+      }
     throw new Error(`${res.status} ${msg}`);
   }
   if (res.status === 204) return null; // DELETE típico
