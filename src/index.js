@@ -1,9 +1,9 @@
 import express from 'express'
 import * as Sentry from '@sentry/node'
-
-const app = express()
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+
+const app = express()
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 app.use(express.static(path.join(__dirname, '..', 'public')))
@@ -69,9 +69,11 @@ app.use((err, _req, res, _next) => {
   res.status(500).json({ error: 'internal_error' })
 })
 
-const PORT = process.env.PORT || 3000
-app.listen(PORT, () => {
-  console.log(`API escuchando en http://localhost:${PORT}`)
-})
+if (process.env.NODE_ENV !== 'test') {
+  const PORT = process.env.PORT || 3000
+  app.listen(PORT, () => {
+    console.log(`API escuchando en http://localhost:${PORT}`)
+  })
+}
 
 export default app
