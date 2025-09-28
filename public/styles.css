@@ -1,0 +1,36 @@
+﻿/* Base */
+:root {
+  --bg:#f6f7f9; --text:#111; --muted:#555; --border:#e5e7eb;
+  --primary:#111; --btn-text:#fff; --ok:#2e7d32; --fail:#c62828;
+  --radius:12px; --s1:4px; --s2:8px; --s3:10px; --s4:16px; --s5:20px;
+  --shadow:0 1px 2px rgba(0,0,0,.06);
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,"Helvetica Neue",Arial}
+
+/* Layout */
+header{padding:var(--s4) var(--s5);background:var(--primary);color:#fff}
+h1{margin:0 0 6px 0;font-size:22px}
+main{padding:var(--s5);display:grid;gap:var(--s4);grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+footer{padding:var(--s4) var(--s5);color:var(--muted);border-top:1px solid var(--border)}
+
+/* Componentes */
+.card{background:#fff;border:1px solid #ddd;border-radius:var(--radius);padding:var(--s4);box-shadow:var(--shadow)}
+.badge{display:inline-block;padding:var(--s1) var(--s2);border-radius:8px;background:#999;font-size:12px}
+.badge.ok{background:var(--ok)} .badge.fail{background:var(--fail)}
+
+/* Formulario */
+#form-nuevo{display:flex;gap:var(--s2)}
+#form-nuevo input{flex:1;padding:var(--s3);border:1px solid #ccc;border-radius:8px;outline:none}
+#form-nuevo input:focus-visible{border-color:var(--primary);box-shadow:0 0 0 3px rgba(17,17,17,.12)}
+#form-nuevo button{padding:var(--s3) 14px;border:0;border-radius:8px;background:var(--primary);color:var(--btn-text);cursor:pointer}
+#form-nuevo button:hover,#form-nuevo button:focus-visible{filter:brightness(1.05)}
+
+/* Lista */
+ul{list-style:none;padding:0;margin:0;display:grid;gap:var(--s2)}
+li{display:flex;justify-content:space-between;align-items:center;padding:var(--s2) var(--s3);
+  border:1px solid var(--border);border-radius:8px;background:#fff}
+li .done{text-decoration:line-through;color:#666}
+.del{border:0;background:#eee;border-radius:8px;padding:6px 8px;cursor:pointer}
+.del:hover,.del:focus-visible{background:#e2e2e2}
