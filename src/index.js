@@ -69,11 +69,10 @@ app.use((err, _req, res, _next) => {
   res.status(500).json({ error: 'internal_error' })
 })
 
-if (process.argv[1] && !process.argv[1].includes("node:test")) {
-  const PORT = process.env.PORT || 3000
-  app.listen(PORT, () => {
-    console.log(`API escuchando en http://localhost:${PORT}`)
-  })
-}
+const PORT = process.env.PORT || 3000
+app.listen(PORT, () => {
+  console.log(`API escuchando en http://localhost:${PORT}`)
+})
+
 
 export default app
