@@ -1,0 +1,6 @@
+﻿{
+  "env": { "browser": true, "es2023": true },
+  "rules": {
+    "no-alert": "off" 
+  }
+}
