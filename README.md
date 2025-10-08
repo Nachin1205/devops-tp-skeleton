@@ -1,6 +1,5 @@
 # TP Integrador DevOps — Starter
 
-Este repo **starter** te ayuda a cumplir el TP con una app mínima (Express), pruebas, Docker multi-stage, Compose y CI en GitHub Actions. **Vas a completarlo y adaptarlo** según la consigna.
 
 ## 1) App & Tests
 - API con `Express`:
