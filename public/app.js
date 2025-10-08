@@ -9,17 +9,17 @@ async function apiJson(path, init = {}) {
     headers: { "Content-Type": "application/json", ...(init.headers || {}) },
     ...init,
   });
+
   if (!res.ok) {
-    let msg = res.statusText;
-    try {
-      const err = await res.json();
-      msg = err.error || msg;
-    } catch {}
+    const data = await res.json().catch(() => ({})); 
+    const msg = data.error || res.statusText || "Error";
     throw new Error(`${res.status} ${msg}`);
   }
-  if (res.status === 204) return null; // DELETE típico
+
+  if (res.status === 204) return null; // DELETE sin body
   return res.json();
 }
+
 
 async function cargarHealth() {
   try {
