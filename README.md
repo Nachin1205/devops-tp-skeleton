@@ -1,4 +1,4 @@
-# TP Integrador DevOps de Docker — Starter
+# TP Integrador DevOps de Docker
 
 
 ## 1) App & Tests
