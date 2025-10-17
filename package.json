@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@sentry/node": "^8.26.0",
+    "@sentry/profiling-node": "^10.20.0",
     "express": "^4.19.2"
   },
   "devDependencies": {
