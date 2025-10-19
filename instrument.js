@@ -12,6 +12,8 @@ Sentry.init({
   ],
   tracesSampleRate: 1.0,
   profilesSampleRate: 1.0,
+  environment: "production",
+  enableLogs: true,
 });
 
 export default Sentry;
