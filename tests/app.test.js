@@ -1,14 +1,17 @@
+// Tests de integración con node:test + supertest
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import request from 'supertest'
 import app from '../src/index.js'
 
+// Verifica que el healthcheck funcione
 test('GET /health responde ok', async () => {
   const res = await request(app).get('/health')
   assert.equal(res.status, 200)
   assert.equal(res.body.status, 'ok')
 })
 
+// Recorre el CRUD completo en memoria
 test('CRUD /todos en memoria', async () => {
   // lista inicial
   let res = await request(app).get('/todos')

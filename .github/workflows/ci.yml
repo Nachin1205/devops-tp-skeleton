@@ -1,7 +1,12 @@
-name: CI & Docker Build
+## Workflow de CI
+## - Ejecuta lint y tests en cada push/PR (job: checks)
+## - Construye y publica imagen a Docker Hub en main o tags v* (job: docker)
+## - Esquema de versionado de imagen: latest (solo main), sha inmutable y semver (vX.Y.Z)
+name: CI
 on:
   push:
     branches: [ "**" ]
+    tags: [ "v*" ]
   pull_request:
     branches: [ "main" ]
 
@@ -10,7 +15,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  test-and-build:
+  checks:
+    name: Lint & Test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -26,33 +32,50 @@ jobs:
         run: npm ci
 
       - name: Lint
+        ## Lint estricto: falla si hay warnings
         run: npm run lint
 
       - name: Test
         env:
           NODE_ENV: test
+        ## Pruebas con node:test + supertest sin levantar servidor
         run: npm test
+
+  docker:
+    name: Build & Push Image
+    needs: checks
+    runs-on: ubuntu-latest
+    # Push on main or when tagging a release (v*)
+    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v')
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Set Docker metadata
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ secrets.DOCKERHUB_USERNAME }}/devops-tp
+          ## Nombre de imagen: docker.io/<usuario>/devops-tp
+          images: docker.io/${{ secrets.DOCKERHUB_USERNAME }}/devops-tp
           tags: |
+            # latest only on main
             type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
+            # immutable by git sha
             type=sha,format=long
+            # semver when pushing git tags like v1.2.3
+            type=semver,pattern={{version}},enable=${{ startsWith(github.ref, 'refs/tags/v') }}
 
       - name: Login to Docker Hub
-        if: github.ref == 'refs/heads/main'
+        ## Requiere secrets: DOCKERHUB_USERNAME y DOCKERHUB_TOKEN
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build & Push
-        if: github.ref == 'refs/heads/main'
         uses: docker/build-push-action@v6
         with:
+          ## Publica la imagen con los tags resueltos por metadata-action
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

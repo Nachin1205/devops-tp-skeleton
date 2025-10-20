@@ -1,15 +1,19 @@
 services:
   web:
+    # Construye la imagen usando el Dockerfile del proyecto
     build: .
     # nombra la imagen localmente:
     image: devops-tp-skeleton:local
     ports:
+      # expone el puerto 3000 del contenedor a 3000 local
       - "3000:3000"
     environment:
       - NODE_ENV=production
       # - PORT=3000    por defecto es 3000
+    # política de reinicio recomendada para dev/prod simple
     restart: unless-stopped
     healthcheck:
+      # verifica el endpoint /health del servicio web
       test: ["CMD", "node", "-e", "fetch('http://localhost:3000/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
       interval: 30s
       timeout: 3s
