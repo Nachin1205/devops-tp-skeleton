@@ -5,7 +5,6 @@
 const $ = (sel) => document.querySelector(sel);
 
 // Helper: fetch con JSON y manejo de errores
-// Helper: fetch con JSON y manejo de errores
 // - agrega header JSON por defecto
 // - lanza Error con mensaje amigable si status != 2xx
 async function apiJson(path, init = {}) {

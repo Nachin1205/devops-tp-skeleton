@@ -2,7 +2,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import request from 'supertest'
-import app from '../src/index.js'
+import app from '../src/app.js'
 
 // Verifica que el healthcheck funcione
 test('GET /health responde ok', async () => {
