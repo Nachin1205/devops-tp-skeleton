@@ -2,10 +2,13 @@ services:
   - type: web
     name: devops-tp-skeleton
     env: image
-    image: docker.io/${{ secrets.DOCKERHUB_USERNAME }}/devops-tp:latest
-    plan: free
+    image: docker.io/tuusuario/devops-tp:latest
+    registryCredential:
+      username: ${DOCKERHUB_USERNAME}
+      password: ${DOCKERHUB_TOKEN}
     envVars:
       - key: NODE_ENV
         value: production
       - key: PORT
         value: 3000
+    plan: free
