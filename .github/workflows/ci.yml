@@ -60,14 +60,16 @@ jobs:
           file: ./Dockerfile
           context: .
   deploy-on-render:
-   runs-on: ubuntu-latest
-   needs: test-and-build
-   steps:
-    - name: Desplegar en Render con nueva imagen
-      if: github.ref == 'refs/heads/main'
-      run: |
-        IMAGE_URL=docker.io/${{ secrets.DOCKERHUB_USERNAME }}/devops-tp:$(echo $GITHUB_SHA)
-        curl -X POST \
-          -d "imgURL=$IMAGE_URL" \
-          ${{ secrets.DEPLOY_HOOK_URL }}
-      
+    runs-on: ubuntu-latest
+    needs: test-and-build
+    steps:
+      - name: Desplegar en Render (usando imagen privada)
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DEPLOY_HOOK_URL: ${{ secrets.DEPLOY_HOOK_URL }}
+        run: |
+          IMAGE_URL=docker.io/${DOCKERHUB_USERNAME}/devops-tp:$(echo $GITHUB_SHA)
+          echo "Desplegando imagen $IMAGE_URL en Render..."
+          curl -X POST \
+            -d "imgURL=$IMAGE_URL" \
+            "$DEPLOY_HOOK_URL"
