@@ -70,4 +70,5 @@ jobs:
         run: |
           IMAGE_URL="docker.io/${DOCKERHUB_USERNAME}/devops-tp:latest"
           echo "Desplegando imagen $IMAGE_URL en Render..."
+          echo "$IMAGE_URL"
           curl -X POST -d "imgURL=$IMAGE_URL" "$DEPLOY_HOOK_URL"
