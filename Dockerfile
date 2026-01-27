@@ -2,7 +2,7 @@
 FROM node:20-alpine AS deps
 WORKDIR /app
 COPY package*.json ./
-RUN npm ci --omit=dev
+RUN npm ci --omit=dev && npm cache clean --force
 
 # Etapa 2: runtime mínimo
 FROM node:20-alpine AS runner
@@ -10,11 +10,14 @@ WORKDIR /app
 ENV NODE_ENV=production
 
 # Copiamos solo lo necesario para correr
-COPY --from=deps /app/node_modules ./node_modules
-COPY package*.json ./
-COPY src ./src
-COPY public ./public
-COPY instrument.js ./
+COPY --from=deps --chown=node:node /app/node_modules ./node_modules
+COPY --chown=node:node package*.json ./
+COPY --chown=node:node src ./src
+COPY --chown=node:node public ./public
+COPY --chown=node:node instrument.js ./
+
+# Usar el usuario node
+USER node
 
 EXPOSE 3000
 
