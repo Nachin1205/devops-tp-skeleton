@@ -3,25 +3,22 @@ import { nodeProfilingIntegration } from "@sentry/profiling-node";
 
 const dsn = process.env.SENTRY_DSN;
 
+// Solo para debug (no imprime el DSN, solo true/false)
 console.log("[Sentry] DSN cargado?", Boolean(dsn));
 
-if (dsn) {
-  Sentry.init({
-    dsn,
-    sendDefaultPii: true,
-    integrations: [
-      Sentry.httpIntegration(),
-      nodeProfilingIntegration(),
-      Sentry.consoleIntegration(),
-      Sentry.expressIntegration(),
-    ],
-    tracesSampleRate: 1.0,
-    profilesSampleRate: 1.0,
-    environment: process.env.SENTRY_ENVIRONMENT || process.env.NODE_ENV || "production",
-    enableLogs: true,
-  });
-} else {
-  console.warn("[Sentry] SENTRY_DSN no definido. Sentry deshabilitado.");
-}
+Sentry.init({
+  dsn, // ✅ usa el DSN que seteás en Render
+  sendDefaultPii: true,
+  integrations: [
+    Sentry.httpIntegration(),
+    nodeProfilingIntegration(),
+    Sentry.consoleIntegration(),
+    Sentry.expressIntegration(),
+  ],
+  tracesSampleRate: 1.0,
+  profilesSampleRate: 1.0,
+  environment: process.env.SENTRY_ENVIRONMENT || process.env.NODE_ENV || "production",
+  enableLogs: true,
+});
 
 export default Sentry;
