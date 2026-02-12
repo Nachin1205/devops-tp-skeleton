@@ -25,7 +25,7 @@ process.on("unhandledRejection", (reason) => {
   console.error("Promesa rechazada sin catch:", reason);
 });
 
-// Iniciar servidor (solo si no estamos en test)
+// Iniciar servidor
 if (process.env.NODE_ENV !== "test") {
   server.listen(PORT, () => {
     console.log(`✅ Servidor escuchando en http://localhost:${PORT}`);
