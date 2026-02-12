@@ -2,13 +2,10 @@ services:
   - type: web
     name: devops-tp-skeleton
     env: docker
-    plan: free
-    autoDeploy: true
-    healthCheckPath: /health
+    image: nacho1205/devops-tp:latest
     envVars:
       - key: NODE_ENV
         value: production
-      - key: SENTRY_ENVIRONMENT
-        value: production
-      - key: SENTRY_DSN
-        sync: false
+      - key: PORT
+        value: 3000
+    plan: free

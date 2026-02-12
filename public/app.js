@@ -1,9 +1,12 @@
 ﻿/* eslint-env browser */
 // Front mínimo que consume la API (misma origin)
 
+// Atajo para querySelector
 const $ = (sel) => document.querySelector(sel);
 
 // Helper: fetch con JSON y manejo de errores
+// agrega header JSON por defecto
+
 async function apiJson(path, init = {}) {
   const res = await fetch(path, {
     headers: { "Content-Type": "application/json", ...(init.headers || {}) },
@@ -21,6 +24,7 @@ async function apiJson(path, init = {}) {
 }
 
 
+// Refresca el estado del endpoint /health y pinta una badge
 async function cargarHealth() {
   try {
     const h = await apiJson("/health");
@@ -33,6 +37,7 @@ async function cargarHealth() {
   }
 }
 
+// Carga la lista de TODOs y arma el DOM dinámicamente
 async function cargarLista() {
   const ul = $("#lista");
   ul.innerHTML = "<li>Cargando…</li>";
@@ -61,6 +66,7 @@ async function cargarLista() {
   }
 }
 
+// POST /todos
 async function crearTodo(title) {
   await apiJson("/todos", {
     method: "POST",
@@ -68,6 +74,7 @@ async function crearTodo(title) {
   });
 }
 
+// PUT /todos/:id
 async function actualizarTodo(id, patch) {
   await apiJson(`/todos/${id}`, {
     method: "PUT",
@@ -75,14 +82,17 @@ async function actualizarTodo(id, patch) {
   });
 }
 
+// DELETE /todos/:id
 async function borrarTodo(id) {
   await apiJson(`/todos/${id}`, { method: "DELETE" });
 }
 
+// Wire-up de eventos y carga inicial
 document.addEventListener("DOMContentLoaded", () => {
   cargarHealth();
   cargarLista();
 
+  // Alta de TODO
   $("#form-nuevo").addEventListener("submit", async (e) => {
     e.preventDefault();
     const title = $("#title").value.trim();
@@ -96,6 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // Toggle de done
   $("#lista").addEventListener("change", async (e) => {
     if (e.target.classList.contains("toggle")) {
       const id = e.target.getAttribute("data-id");
@@ -108,6 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // Borrado
   $("#lista").addEventListener("click", async (e) => {
     if (e.target.classList.contains("del")) {
       const id = e.target.getAttribute("data-id");
