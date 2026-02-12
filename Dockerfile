@@ -3,9 +3,6 @@ FROM node:20-alpine AS deps
 WORKDIR /app
 COPY package*.json ./
 RUN npm ci --omit=dev
-## Notas:
-## - npm ci asegura instalaciones reproducibles con package-lock.json
-## - omit=dev excluye dependencias de desarrollo para un runtime más liviano
 
 # Etapa 2: runtime mínimo
 FROM node:20-alpine AS runner
@@ -13,7 +10,7 @@ FROM node:20-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 
-# Copiamos solo lo necesario para correr
+# Copiamos
 COPY --from=deps /app/node_modules ./node_modules
 COPY package*.json ./
 COPY src ./src
@@ -23,7 +20,7 @@ COPY instrument.js ./
 EXPOSE 3000
 
 # Healthcheck a /health 
-## Node 20 ya incluye fetch; en versiones anteriores usar curl/wget
+## Node 20 ya incluye fetch
 HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
   CMD node -e "fetch('http://localhost:3000/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
 

@@ -5,8 +5,8 @@
 const $ = (sel) => document.querySelector(sel);
 
 // Helper: fetch con JSON y manejo de errores
-// - agrega header JSON por defecto
-// - lanza Error con mensaje si status != 2xx
+// agrega header JSON por defecto
+
 async function apiJson(path, init = {}) {
   const res = await fetch(path, {
     headers: { "Content-Type": "application/json", ...(init.headers || {}) },
