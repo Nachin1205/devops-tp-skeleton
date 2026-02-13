@@ -129,7 +129,6 @@ app.get("/boom", (_req, _res) => {
     Sentry.captureException(err);
     throw err;
   }
-  throw new Error("Boom! Error de ejemplo controlado");
 });
 
 
