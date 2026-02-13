@@ -3,11 +3,11 @@ import { nodeProfilingIntegration } from "@sentry/profiling-node";
 
 const dsn = process.env.SENTRY_DSN;
 
-// Solo para debug (no imprime el DSN, solo true/false)
+// Debug (solo true/false, no imprime el DSN)
 console.log("[Sentry] DSN cargado?", Boolean(dsn));
 
 Sentry.init({
-  dsn, // ✅ usa el DSN que seteás en Render
+  dsn,
   sendDefaultPii: true,
   integrations: [
     Sentry.httpIntegration(),

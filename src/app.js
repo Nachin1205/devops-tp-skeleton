@@ -1,5 +1,7 @@
 import express from "express";
-import Sentry from "../instrument.js";
+import "../instrument.js";
+import * as Sentry from "@sentry/node";
+
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -127,7 +129,9 @@ app.get("/boom", (_req, _res) => {
     Sentry.captureException(err);
     throw err;
   }
+  throw new Error("Boom! Error de ejemplo controlado");
 });
+
 
 app.use(Sentry.expressErrorHandler());
 
