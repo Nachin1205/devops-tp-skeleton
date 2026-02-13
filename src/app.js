@@ -132,6 +132,7 @@ app.get("/boom", (_req, _res) => {
 });
 
 
+
 app.use(Sentry.expressErrorHandler());
 
 app.use((err, req, res, next) => {
